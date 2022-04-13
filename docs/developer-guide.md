@@ -11,8 +11,8 @@ deploying
 api/index
 architecture
 extensions
+cli-addons
 doit
-contributing
 ```
 
 ## Frequently-Asked Questions

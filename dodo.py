@@ -14,6 +14,18 @@ import doit
 import pkginfo
 
 
+def which(cmd):
+    """find a command, maybe with a weird windows extension"""
+    return str(
+        Path(
+            shutil.which(cmd)
+            or shutil.which(f"{cmd}.exe")
+            or shutil.which(f"{cmd}.cmd")
+            or shutil.which(f"{cmd}.bat")
+        ).resolve()
+    )
+
+
 def task_env():
     """keep environments in sync"""
 
@@ -101,7 +113,7 @@ def task_setup():
 
     actions = [U.do(*args)]
 
-    if not (C.CI or C.RTD):
+    if not (C.CI or C.RTD or C.BINDER):
         actions += [U.do("yarn", "deduplicate")]
 
     yield dict(
@@ -322,7 +334,7 @@ def task_build():
         app = app_json.parent
         app_build = app / "build"
         app_targets = [
-            P.APP / "build" / app.name / "bundle.js",
+            P.APP / app.name / "index.html",
             app_build / "index.js",
             app_build / "style.js",
         ]
@@ -614,6 +626,57 @@ def task_docs():
         )
 
 
+def task_serve():
+    """run various development servers"""
+
+    yield dict(
+        name="docs:app",
+        doc="serve the as-built example site with `jupyter lite serve`",
+        uptodate=[lambda: False],
+        actions=[(U.docs_app, ["serve"])],
+        file_dep=[B.DOCS_APP_WHEEL_INDEX, B.DOCS_APP_JS_BUNDLE],
+        task_dep=["dev"],
+    )
+
+    app_indexes = [P.APP / app / "index.html" for app in D.APPS]
+
+    yield dict(
+        name="core:js",
+        doc="serve the core app (no extensions) with nodejs",
+        uptodate=[lambda: False],
+        actions=[U.do("yarn", "serve")],
+        file_dep=app_indexes,
+    )
+
+    yield dict(
+        name="core:py",
+        doc="serve the core app (no extensions) with python",
+        uptodate=[lambda: False],
+        actions=[U.do("yarn", "serve")],
+        file_dep=app_indexes,
+    )
+
+    def _lab():
+        args = [which("jupyter-lab"), *C.LAB_ARGS]
+        proc = subprocess.Popen(list(map(str, args)), stdin=subprocess.PIPE)
+
+        try:
+            proc.wait()
+        except KeyboardInterrupt:
+            proc.terminate()
+            proc.communicate(b"y\n")
+
+        proc.wait()
+
+    yield dict(
+        name="lab",
+        doc="start jupyterlab",
+        uptodate=[lambda: False],
+        actions=[_lab],
+        task_dep=["dev"],
+    )
+
+
 @doit.create_after("docs")
 def task_check():
     """perform checks of built artifacts"""
@@ -781,7 +844,9 @@ class C:
     ENC = dict(encoding="utf-8")
     JSON = dict(indent=2, sort_keys=True)
     CI = bool(json.loads(os.environ.get("CI", "0")))
+    BINDER = bool(json.loads(os.environ.get("BINDER", "0")))
     PY_IMPL = platform.python_implementation()
+    WIN = platform.system() == "Windows"
     PYPY = "pypy" in PY_IMPL.lower()
     RTD = bool(json.loads(os.environ.get("READTHEDOCS", "False").lower()))
     IN_CONDA = bool(os.environ.get("CONDA_PREFIX"))
@@ -789,6 +854,11 @@ class C:
     PYTEST_ARGS = json.loads(os.environ.get("PYTEST_ARGS", "[]"))
     PYTEST_PROCS = json.loads(os.environ.get("PYTEST_PROCS", "4"))
     LITE_ARGS = json.loads(os.environ.get("LITE_ARGS", "[]"))
+    LAB_ARGS = json.loads(
+        os.environ.get(
+            "LAB_ARGS", """["--no-browser","--debug","--expose-app-in-browser"]"""
+        )
+    )
     SPHINX_ARGS = json.loads(os.environ.get("SPHINX_ARGS", "[]"))
     DOCS_ENV_MARKER = "### DOCS ENV ###"
     FED_EXT_MARKER = "### FEDERATED EXTENSIONS ###"
@@ -841,7 +911,7 @@ class C:
     PYM = [sys.executable, "-m"]
     FLIT = [*PYM, "flit"]
     SOURCE_DATE_EPOCH = (
-        subprocess.check_output(["git", "log", "-1", "--format=%ct"])
+        subprocess.check_output([which("git"), "log", "-1", "--format=%ct"])
         .decode("utf-8")
         .strip()
     )
@@ -1020,9 +1090,7 @@ class L:
     ALL_YAML = _clean_paths(
         P.ROOT.glob("*.yml"), P.BINDER.glob("*.yml"), P.CI.rglob("*.yml")
     )
-    ALL_PRETTIER = _clean_paths(
-        ALL_JSON, ALL_MD, ALL_YAML, ALL_ESLINT, ALL_JS, ALL_HTML
-    )
+    ALL_PRETTIER = _clean_paths(ALL_JSON, ALL_MD, ALL_YAML, ALL_ESLINT, ALL_JS)
     ALL_BLACK = _clean_paths(
         *P.DOCS_PY,
         P.DODO,
@@ -1112,18 +1180,12 @@ class BB:
 class U:
     @staticmethod
     def do(*args, cwd=P.ROOT, **kwargs):
-        """wrap a CmdAction for consistency"""
-        cmd = args[0]
+        """wrap a CmdAction for consistency (e.g. on windows)"""
         try:
-            cmd = Path(
-                shutil.which(cmd)
-                or shutil.which(f"{cmd}.exe")
-                or shutil.which(f"{cmd}.cmd")
-                or shutil.which(f"{cmd}.bat")
-            ).resolve()
+            cmd = which(args[0])
         except Exception:
-            print(cmd, "is not available (this might not be a problem)")
-            return ["echo", f"{cmd} not available"]
+            print(args[0], "is not available (this might not be a problem)")
+            return ["echo", f"{args[0]} not available"]
         return doit.action.CmdAction(
             [cmd, *args[1:]], shell=False, cwd=str(Path(cwd)), **kwargs
         )
@@ -1156,7 +1218,14 @@ class U:
 
         try:
             out = subprocess.check_output(
-                ["depfinder", "--no-remap", "--yaml", "--key", "required", has_deps]
+                [
+                    which("depfinder"),
+                    "--no-remap",
+                    "--yaml",
+                    "--key",
+                    "required",
+                    has_deps,
+                ]
             ).decode("utf-8")
         except subprocess.CalledProcessError:
             print(has_deps, "probably isn't python")
@@ -1166,7 +1235,7 @@ class U:
     @staticmethod
     def sync_lite_config(from_env, to_json, marker, extra_urls, all_deps):
         """use conda list to derive tarball names for federated_extensions"""
-        raw_lock = subprocess.check_output(["conda", "list", "--explicit"])
+        raw_lock = subprocess.check_output([which("conda"), "list", "--explicit"])
         ext_packages = [
             p.strip().split(" ")[0]
             for p in from_env.read_text(**C.ENC).split(marker)[1].split(" - ")
@@ -1234,7 +1303,7 @@ class U:
             )
         )
         subprocess.check_call(
-            ["pip", "download", "-r", B.RAW_WHEELS_REQS, "--prefer-binary"],
+            [*C.PYM, "pip", "download", "-r", B.RAW_WHEELS_REQS, "--prefer-binary"],
             cwd=str(B.RAW_WHEELS),
         )
 
@@ -1614,6 +1683,13 @@ os.environ.update(
     PYTHONIOENCODING=C.ENC["encoding"],
     PIP_DISABLE_PIP_VERSION_CHECK="1",
 )
+
+if C.WIN:
+    os.environ.update(
+        # reasses after https://github.com/xz64/license-webpack-plugin/issues/111
+        NO_WEBPACK_LICENSES="1",
+    )
+
 
 # doit configuration
 DOIT_CONFIG = {
