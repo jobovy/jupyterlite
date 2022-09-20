@@ -2,6 +2,136 @@
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 0.1.0b12
+
+([Full Changelog](https://github.com/jupyterlite/jupyterlite/compare/v0.1.0b11...f3f5de025b764c51d37ef79da9e9e3cf7bad13cc))
+
+### Enhancements made
+
+- Upgrade to pyodide 0.21.0 [#756](https://github.com/jupyterlite/jupyterlite/pull/756) ([@agoose77](https://github.com/agoose77))
+- Refactor drivefs API [#753](https://github.com/jupyterlite/jupyterlite/pull/753) ([@martinRenou](https://github.com/martinRenou))
+
+### Bugs fixed
+
+- Change kernel from notebook [#758](https://github.com/jupyterlite/jupyterlite/pull/758) ([@hbcarlos](https://github.com/hbcarlos))
+- Refactor drivefs API [#753](https://github.com/jupyterlite/jupyterlite/pull/753) ([@martinRenou](https://github.com/martinRenou))
+- Bugfix:Make input work again [#733](https://github.com/jupyterlite/jupyterlite/pull/733) ([@joemarshall](https://github.com/joemarshall))
+- Declare will_fetch early [#728](https://github.com/jupyterlite/jupyterlite/pull/728) ([@rickwierenga](https://github.com/rickwierenga))
+- Serves Python server instead of Nodejs [#724](https://github.com/jupyterlite/jupyterlite/pull/724) ([@Enforcer007](https://github.com/Enforcer007))
+
+### Maintenance and upkeep improvements
+
+- update to jupyterlab 3.4.5 [#765](https://github.com/jupyterlite/jupyterlite/pull/765) ([@bollwyvl](https://github.com/bollwyvl))
+- Upgrade to jupyterlab 3.4.4 [#746](https://github.com/jupyterlite/jupyterlite/pull/746) ([@bollwyvl](https://github.com/bollwyvl))
+- Update no wheels found error message [#726](https://github.com/jupyterlite/jupyterlite/pull/726) ([@rickwierenga](https://github.com/rickwierenga))
+- Bump moment from 2.29.2 to 2.29.4 [#721](https://github.com/jupyterlite/jupyterlite/pull/721) ([@dependabot](https://github.com/dependabot))
+- Bump moment from 2.29.2 to 2.29.4 in /ui-tests [#720](https://github.com/jupyterlite/jupyterlite/pull/720) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- Update GitHub Pages config in the quickstart guide [#761](https://github.com/jupyterlite/jupyterlite/pull/761) ([@jtpio](https://github.com/jtpio))
+- Docs: fix path to `overrides.json` [#755](https://github.com/jupyterlite/jupyterlite/pull/755) ([@agoose77](https://github.com/agoose77))
+- Fix ipycanvas example [#748](https://github.com/jupyterlite/jupyterlite/pull/748) ([@martinRenou](https://github.com/martinRenou))
+- Add JupyterLab-github to the federated extensions [#734](https://github.com/jupyterlite/jupyterlite/pull/734) ([@jasongrout](https://github.com/jasongrout))
+- Extra Meta Info for Developers [#722](https://github.com/jupyterlite/jupyterlite/pull/722) ([@Enforcer007](https://github.com/Enforcer007))
+
+### API and Breaking Changes
+
+- Upgrade to pyodide 0.21.0 [#756](https://github.com/jupyterlite/jupyterlite/pull/756) ([@agoose77](https://github.com/agoose77))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlite/jupyterlite/graphs/contributors?from=2022-07-08&to=2022-08-17&type=c))
+
+[@agoose77](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Aagoose77+updated%3A2022-07-08..2022-08-17&type=Issues) | [@bollwyvl](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Abollwyvl+updated%3A2022-07-08..2022-08-17&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Adependabot+updated%3A2022-07-08..2022-08-17&type=Issues) | [@Enforcer007](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3AEnforcer007+updated%3A2022-07-08..2022-08-17&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Agithub-actions+updated%3A2022-07-08..2022-08-17&type=Issues) | [@hbcarlos](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ahbcarlos+updated%3A2022-07-08..2022-08-17&type=Issues) | [@jasongrout](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajasongrout+updated%3A2022-07-08..2022-08-17&type=Issues) | [@joemarshall](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajoemarshall+updated%3A2022-07-08..2022-08-17&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajtpio+updated%3A2022-07-08..2022-08-17&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3AmartinRenou+updated%3A2022-07-08..2022-08-17&type=Issues) | [@rickwierenga](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Arickwierenga+updated%3A2022-07-08..2022-08-17&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
+## 0.1.0b11
+
+([Full Changelog](https://github.com/jupyterlite/jupyterlite/compare/v0.1.0b10...7ba0b92e3514ad607425711b7a28d8395bf8c59d))
+
+### Enhancements made
+
+- Allow worker.js to work with pyodide.mjs [#715](https://github.com/jupyterlite/jupyterlite/pull/715) ([@joemarshall](https://github.com/joemarshall))
+- Remove hardcoded default kernel [#698](https://github.com/jupyterlite/jupyterlite/pull/698) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix handling of JSON files [#714](https://github.com/jupyterlite/jupyterlite/pull/714) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Deduplicate `yarn.lock` [#716](https://github.com/jupyterlite/jupyterlite/pull/716) ([@jtpio](https://github.com/jtpio))
+- Bump parse-url from 6.0.0 to 6.0.2 [#713](https://github.com/jupyterlite/jupyterlite/pull/713) ([@dependabot](https://github.com/dependabot))
+- make requests_cache import best-effort for pypy [#704](https://github.com/jupyterlite/jupyterlite/pull/704) ([@bollwyvl](https://github.com/bollwyvl))
+- Update copyright year in the about dialog [#700](https://github.com/jupyterlite/jupyterlite/pull/700) ([@jtpio](https://github.com/jtpio))
+- Fix micromamba environment on Gitpod [#690](https://github.com/jupyterlite/jupyterlite/pull/690) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Docs howto content: example jupyter_lite_config.json must be JSON [#707](https://github.com/jupyterlite/jupyterlite/pull/707) ([@manics](https://github.com/manics))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlite/jupyterlite/graphs/contributors?from=2022-06-24&to=2022-07-08&type=c))
+
+[@bollwyvl](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Abollwyvl+updated%3A2022-06-24..2022-07-08&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Adependabot+updated%3A2022-06-24..2022-07-08&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Agithub-actions+updated%3A2022-06-24..2022-07-08&type=Issues) | [@joemarshall](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajoemarshall+updated%3A2022-06-24..2022-07-08&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajtpio+updated%3A2022-06-24..2022-07-08&type=Issues) | [@manics](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Amanics+updated%3A2022-06-24..2022-07-08&type=Issues)
+
+## 0.1.0b10
+
+([Full Changelog](https://github.com/jupyterlite/jupyterlite/compare/v0.1.0b9...8f29f4ea79c54e3f47b945625f75ed566495e0cb))
+
+### Enhancements made
+
+- Caching service worker [#686](https://github.com/jupyterlite/jupyterlite/pull/686) ([@martinRenou](https://github.com/martinRenou))
+- Add Gitpod configuration [#672](https://github.com/jupyterlite/jupyterlite/pull/672) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Add encoding to LiteStream [#680](https://github.com/jupyterlite/jupyterlite/pull/680) ([@eagleoflqj](https://github.com/eagleoflqj))
+
+### Maintenance and upkeep improvements
+
+- Change the Pyolite display name [#685](https://github.com/jupyterlite/jupyterlite/pull/685) ([@martinRenou](https://github.com/martinRenou))
+- Bump jpeg-js from 0.4.3 to 0.4.4 in /ui-tests [#675](https://github.com/jupyterlite/jupyterlite/pull/675) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- add config docs to getting started [#691](https://github.com/jupyterlite/jupyterlite/pull/691) ([@stevejpurves](https://github.com/stevejpurves))
+- Add a note about `.nojekyll` to the documentation [#689](https://github.com/jupyterlite/jupyterlite/pull/689) ([@jtpio](https://github.com/jtpio))
+- Fix broken link to documentation in README [#688](https://github.com/jupyterlite/jupyterlite/pull/688) ([@kolibril13](https://github.com/kolibril13))
+- Add Gitpod configuration [#672](https://github.com/jupyterlite/jupyterlite/pull/672) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlite/jupyterlite/graphs/contributors?from=2022-06-17&to=2022-06-24&type=c))
+
+[@bollwyvl](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Abollwyvl+updated%3A2022-06-17..2022-06-24&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Adependabot+updated%3A2022-06-17..2022-06-24&type=Issues) | [@eagleoflqj](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Aeagleoflqj+updated%3A2022-06-17..2022-06-24&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Agithub-actions+updated%3A2022-06-17..2022-06-24&type=Issues) | [@joemarshall](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajoemarshall+updated%3A2022-06-17..2022-06-24&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajtpio+updated%3A2022-06-17..2022-06-24&type=Issues) | [@kolibril13](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Akolibril13+updated%3A2022-06-17..2022-06-24&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3AmartinRenou+updated%3A2022-06-17..2022-06-24&type=Issues) | [@stevejpurves](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Astevejpurves+updated%3A2022-06-17..2022-06-24&type=Issues)
+
+## 0.1.0b9
+
+([Full Changelog](https://github.com/jupyterlite/jupyterlite/compare/v0.1.0b8...59dd0655acfb446a3546c7896d2f7501de9c9330))
+
+### Enhancements made
+
+- Propagate doit return codes to CLI [#674](https://github.com/jupyterlite/jupyterlite/pull/674) ([@bollwyvl](https://github.com/bollwyvl))
+- Add configurable fileTypes for upload and HTTP serving [#670](https://github.com/jupyterlite/jupyterlite/pull/670) ([@bollwyvl](https://github.com/bollwyvl))
+- Fix CSV file upload [#666](https://github.com/jupyterlite/jupyterlite/pull/666) ([@martinRenou](https://github.com/martinRenou))
+- Update to JupyterLab 3.4.3 [#661](https://github.com/jupyterlite/jupyterlite/pull/661) ([@jtpio](https://github.com/jtpio))
+- Implement a custom Emscripten File System which communicates with the JupyterLab Content Manager, giving file access to pyolite [#655](https://github.com/jupyterlite/jupyterlite/pull/655) ([@martinRenou](https://github.com/martinRenou))
+
+### Maintenance and upkeep improvements
+
+- Allow for using `micromamba` for the dev setup [#669](https://github.com/jupyterlite/jupyterlite/pull/669) ([@jtpio](https://github.com/jtpio))
+- Simplify kernelspecs [#660](https://github.com/jupyterlite/jupyterlite/pull/660) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyterlite/jupyterlite/graphs/contributors?from=2022-06-08&to=2022-06-17&type=c))
+
+[@bollwyvl](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Abollwyvl+updated%3A2022-06-08..2022-06-17&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Agithub-actions+updated%3A2022-06-08..2022-06-17&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajtpio+updated%3A2022-06-08..2022-06-17&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3AmartinRenou+updated%3A2022-06-08..2022-06-17&type=Issues) | [@psychemedia](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Apsychemedia+updated%3A2022-06-08..2022-06-17&type=Issues)
+
 ## 0.1.0b8
 
 ([Full Changelog](https://github.com/jupyterlite/jupyterlite/compare/v0.1.0b7...6b71743d5640a11d3c669556f09f0e47df17cc45))
@@ -30,8 +160,6 @@
 ([GitHub contributors page for this release](https://github.com/jupyterlite/jupyterlite/graphs/contributors?from=2022-05-04&to=2022-06-08&type=c))
 
 [@bollwyvl](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Abollwyvl+updated%3A2022-05-04..2022-06-08&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Agithub-actions+updated%3A2022-05-04..2022-06-08&type=Issues) | [@HighDiceRoller](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3AHighDiceRoller+updated%3A2022-05-04..2022-06-08&type=Issues) | [@joemarshall](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajoemarshall+updated%3A2022-05-04..2022-06-08&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3Ajtpio+updated%3A2022-05-04..2022-06-08&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyterlite%2Fjupyterlite+involves%3AmartinRenou+updated%3A2022-05-04..2022-06-08&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 0.1.0b7
 
