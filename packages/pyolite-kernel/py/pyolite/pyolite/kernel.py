@@ -3,7 +3,7 @@ import typing
 
 from ipykernel import CommManager
 from IPython.utils.tokenutil import line_at_cursor, token_at_cursor
-from pyodide_js import loadPackage
+from pyodide_js import loadPackagesFromImports
 from pyodide.code import find_imports
 from traitlets import Any, Instance, default
 from traitlets.config import LoggingConfigurable
@@ -93,9 +93,14 @@ class Pyolite(LoggingConfigurable):
         results = {}
 
         try:
+            # Don't load galpy from the default channel
+            # Re-use loadPackagesFromImports so any imports that wouldn't
+            # get imported by loadPackagesFromImports don't get imported here
+            # either (e.g., pyodide_js)
             packages_to_load= find_imports(exec_code)
-            packages_to_load.remove('galpy')
-            await loadPackage(packages_to_load)
+            if 'galpy' in packages_to_load:
+                packages_to_load.remove('galpy')
+            await loadPackagesFromImports("".join(f"import {package}; " for package in packages_to_import))
         except Exception:
             self.interpreter.showtraceback()
         else:
