@@ -3,7 +3,8 @@ import typing
 
 from ipykernel import CommManager
 from IPython.utils.tokenutil import line_at_cursor, token_at_cursor
-from pyodide_js import loadPackagesFromImports as _load_packages_from_imports
+from pyodide_js import loadPackage
+from pyodide.code import find_imports
 from traitlets import Any, Instance, default
 from traitlets.config import LoggingConfigurable
 
@@ -92,7 +93,9 @@ class Pyolite(LoggingConfigurable):
         results = {}
 
         try:
-            await _load_packages_from_imports(exec_code)
+            packages_to_load= find_imports(exec_code)
+            packages_to_load.remove('galpy')
+            await loadPackage(packages_to_load)
         except Exception:
             self.interpreter.showtraceback()
         else:
