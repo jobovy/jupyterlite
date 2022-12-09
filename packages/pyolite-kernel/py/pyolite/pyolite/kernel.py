@@ -100,7 +100,7 @@ class Pyolite(LoggingConfigurable):
             packages_to_load= find_imports(exec_code)
             if 'galpy' in packages_to_load:
                 packages_to_load.remove('galpy')
-            await loadPackagesFromImports("".join(f"import {package}; " for package in packages_to_import))
+            await loadPackagesFromImports("".join(f"import {package}; " for package in packages_to_load))
         except Exception:
             self.interpreter.showtraceback()
         else:
