@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from ..constants import JSON_FMT, JUPYTER_CONFIG_DATA, JUPYTERLITE_JSON, UTF8
+from ..optional import has_optional_dependency
 from .base import BaseAddon
 
 MATHJAX_JS = "MathJax.js"
@@ -12,12 +13,10 @@ MATHJAX_CONFIG_SHIPPED = "TeX-AMS-MML_HTMLorMML-full,Safe"
 FULL_MATHJAX_URL = "fullMathjaxUrl"
 MATHJAX_CONFIG = "mathjaxConfig"
 
-try:
+if has_optional_dependency("jupyter_server_mathjax"):
     from jupyter_server_mathjax.app import STATIC_ASSETS_PATH
 
     MATHJAX_PATH = Path(STATIC_ASSETS_PATH)
-except ImportError:  # pragma: no cover
-    pass
 
 
 class MathjaxAddon(BaseAddon):
@@ -52,7 +51,7 @@ class MathjaxAddon(BaseAddon):
 
     def status(self, manager):
         """Report MathJax status"""
-        yield dict(
+        yield self.task(
             name="status",
             doc="Get information about offline MathJax",
             actions=[self.log_status],
@@ -63,7 +62,7 @@ class MathjaxAddon(BaseAddon):
         if not self.mathjax_path:
             return
 
-        yield dict(
+        yield self.task(
             name="copy",
             doc="copy MathJax into the output dir",
             file_dep=[self.mathjax_path / MATHJAX_JS],
@@ -79,7 +78,7 @@ class MathjaxAddon(BaseAddon):
 
         jupyterlite_json = manager.output_dir / JUPYTERLITE_JSON
 
-        yield dict(
+        yield self.task(
             name="patch",
             doc=f"ensure {JUPYTERLITE_JSON} includes the mathjax url",
             file_dep=[jupyterlite_json],
@@ -90,7 +89,7 @@ class MathjaxAddon(BaseAddon):
         """Check if the MathJax paths are consistent"""
         jupyterlite_json = manager.output_dir / JUPYTERLITE_JSON
 
-        yield dict(
+        yield self.task(
             name="config",
             file_dep=[jupyterlite_json],
             actions=[(self.check_config_paths, [jupyterlite_json])],

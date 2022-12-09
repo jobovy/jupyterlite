@@ -2,7 +2,8 @@
 from pathlib import Path
 
 from jupyter_core.application import JupyterApp, base_aliases, base_flags
-from traitlets import Bool, Instance, Unicode, default
+from jupyter_core.paths import jupyter_config_path
+from traitlets import Bool, Instance, List, Unicode, default
 
 from . import __version__
 from .addons.piplite import list_wheels
@@ -24,6 +25,10 @@ lite_flags = {
     "no-unused-shared-packages": (
         {"LiteBuildConfig": {"no_unused_shared_packages": True}},
         "Remove shared packages not used by --apps",
+    ),
+    "no-libarchive": (
+        {"LiteBuildConfig": {"no_libarchive": True}},
+        "Do not try to use libarchive-c for archive operations",
     ),
     **{
         flag: value
@@ -48,6 +53,10 @@ class BaseLiteApp(JupyterApp, LiteBuildConfig, DescribedMixin):
 
     config_file_name = Unicode("jupyter_lite_config").tag(config=True)
 
+    config_file_paths = List(
+        Unicode(help="Paths to search for jupyter_lite.(py|json)")
+    ).tag(config=True)
+
     # traitlets app stuff
     aliases = dict(
         **base_aliases,
@@ -62,6 +71,7 @@ class BaseLiteApp(JupyterApp, LiteBuildConfig, DescribedMixin):
             # contents
             "contents": "LiteBuildConfig.contents",
             "ignore-contents": "LiteBuildConfig.ignore_contents",
+            "extra-ignore-contents": "LiteBuildConfig.extra_ignore_contents",
             # settings
             "settings-overrides": "LiteBuildConfig.settings_overrides",
             "mathjax-dir": "LiteBuildConfig.mathjax_dir",
@@ -80,6 +90,10 @@ class BaseLiteApp(JupyterApp, LiteBuildConfig, DescribedMixin):
 
     flags = lite_flags
 
+    @default("config_file_paths")
+    def _config_file_paths_default(self):
+        return [str(Path.cwd())] + jupyter_config_path()
+
 
 class ManagedApp(BaseLiteApp):
     """An app with a LiteManager that can do some config fixing"""
@@ -95,6 +109,8 @@ class ManagedApp(BaseLiteApp):
             kwargs["lite_dir"] = self.lite_dir
         if self.app_archive:
             kwargs["app_archive"] = self.app_archive
+        if self.no_libarchive:
+            kwargs["no_libarchive"] = self.no_libarchive
         if self.output_dir:
             kwargs["output_dir"] = self.output_dir
         if self.mathjax_dir:
@@ -107,6 +123,8 @@ class ManagedApp(BaseLiteApp):
             kwargs["contents"] = [Path(p) for p in self.contents]
         if self.ignore_contents:
             kwargs["ignore_contents"] = self.ignore_contents
+        if self.extra_ignore_contents:
+            kwargs["extra_ignore_contents"] = self.extra_ignore_contents
         if self.settings_overrides:
             kwargs["settings_overrides"] = [Path(p) for p in self.settings_overrides]
         if self.apps:

@@ -47,6 +47,11 @@ class LiteBuildConfig(LoggingConfigurable):
         help="The app archive to use. env: JUPYTERLITE_APP_ARCHIVE"
     ).tag(config=True)
 
+    no_libarchive: bool = Bool(
+        help="Don't detect and use libarchive-c for higher performance and more archives",
+        default_value=False,
+    ).tag(config=True)
+
     lite_dir: Path = CPath(
         help="The root folder of a JupyterLite project. env: JUPYTERLITE_DIR"
     ).tag(config=True)
@@ -113,6 +118,10 @@ class LiteBuildConfig(LoggingConfigurable):
     # patterns
     ignore_contents: _Tuple[_Text] = Tuple(
         help="Path regular expressions that should never be included as contents"
+    ).tag(config=True)
+
+    extra_ignore_contents: _Tuple[_Text] = Tuple(
+        help="Additional path regular expressions that should never be included as contents"
     ).tag(config=True)
 
     source_date_epoch: _Optional[int] = CInt(
@@ -184,27 +193,31 @@ class LiteBuildConfig(LoggingConfigurable):
     def _default_ignore_files(self):
         output_dir = self.output_dir.name.replace(".", "\\.")
         return [
-            "/_build/",
-            "/\.cache/",
-            "/\.env",
-            "/\.git",
-            "/\.ipynb_checkpoints",
-            "/build/",
-            "/dist/",
-            "/envs/",
-            "/lib/",
-            "/node_modules/",
-            "/overrides\.json",
-            "/untitled\..*",
-            "/Untitled\..*",
-            "/venvs/",
-            "\.*doit\.db$",
-            "\.pyc$",
+            r"/_build/",
+            r"/\.cache/",
+            r"/\.env",
+            r"/\.git",
+            r"/\.ipynb_checkpoints",
+            r"/build/",
+            r"/dist/",
+            r"/envs/",
+            r"/lib/",
+            r"/node_modules/",
+            r"/overrides\.json",
+            r"/untitled\..*",
+            r"/Untitled\..*",
+            r"/venvs/",
+            r"\.*doit\.db$",
+            r"\.pyc$",
             C.JUPYTER_LITE_CONFIG.replace(".", "\\."),
             C.JUPYTERLITE_IPYNB.replace(".", "\\."),
             C.JUPYTERLITE_JSON.replace(".", "\\."),
-            f"""/{output_dir}/""",
+            rf"""/{output_dir}/""",
         ]
+
+    @default("extra_ignore_contents")
+    def _default_extra_ignore_files(self):
+        return []
 
     @default("app_archive")
     def _default_app_archive(self):

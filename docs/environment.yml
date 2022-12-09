@@ -9,24 +9,26 @@ dependencies:
   # the chunk below gets copied to ../.binder/environment.yml
   ### DOCS ENV ###
   # runtimes
-  - nodejs >=14,<15
-  - python >=3.9,<3.10
+  - nodejs >=16,<17
+  - python >=3.10,<3.11
   # build
-  - doit >=0.33,<0.34
+  - doit >=0.34,<1
   - flit >=3.7.1,<4
   - jupyter-server-mathjax >=0.2.3
   - jsonschema >=3
   - pip
   - pkginfo
+  - python-libarchive-c
   - requests_cache
   - wheel
   - yarn <2
   # cli
   - wheel
   # docs
+  - docutils >=0.18
   - myst-nb
   - pydata-sphinx-theme
-  - sphinx
+  - sphinx >=5.1,<6
   - sphinx-autodoc-typehints
   - sphinx-jsonschema
   - sphinxext-rediraffe
@@ -39,7 +41,7 @@ dependencies:
   - pytest-html
   - pytest-xdist
   # language packs and contents
-  - jupyter_server >=1.11,<2
+  - jupyter_server >=1.11,<3
   - jupyterlab-language-pack-fr-FR
   - jupyterlab-language-pack-zh-CN
   - jupyterlab_server >=2.8.1,<3
